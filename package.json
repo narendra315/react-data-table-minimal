@@ -1,0 +1,29 @@
+{
+  "name": "ns-grid",
+  "version": "1.0.0",
+  "description": "A React based data table",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/narendra315/ns-grid",
+  "scripts": {
+    "prepare": "tsc && echo 'Finished building NPM package'"
+  },
+  "keywords": [
+    "react",
+    "data table",
+    "data grid",
+    "grid",
+    "table"
+  ],
+  "author": "Narendra Singh",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^16.9.41",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "typescript": "^3.9.5"
+  }
+}
