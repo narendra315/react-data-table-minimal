@@ -14,8 +14,8 @@ interface ITablePropType {
     renderAscCaretIcon?(): any,
     renderDescCaretIcon?(): any,
 
-    columns: any,
-    data: any,
+    columns: [],
+    data: [],
 
     sortBy?: string,
     sortOrder?: string,
@@ -56,11 +56,11 @@ class ComponentName extends React.Component<ITablePropType, any> {
                         {
                             columns.map((item: any, index: number) => {
                                 return (
-                                    <th key={index} onClick={item.sort ? this.sortData : undefined} data-name={item.name} className={tdHeadCSS ? tdHeadCSS : ""}>
+                                    <th key={index} onClick={item.sort ? this.sortData : undefined} data-name={item.name} className={tdHeadCSS ? tdHeadCSS : ""} style={item.sort ? { cursor: 'pointer' } : {}}>
                                         {item.label}
                                         {
                                             item.sort ?
-                                                item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8593;</span> : renderDescCaretIcon ? renderDescCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8595;</span>) : <span style={{ marginLeft: '0.2rem', color: '#eee', fontSize: '0.8rem' }}>&#8597;</span>
+                                                item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8593;</span> : renderDescCaretIcon ? renderDescCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8595;</span>) : null
                                                 : null
                                         }
                                     </th>
@@ -74,7 +74,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
                         processedData.map((item: any, index: number) => {
                             return (
                                 <tr key={index} className={trBodyCSS}>
-                                    {this.renderChildTD(item)}
+                                    {this.renderChildTD(item, index)}
                                 </tr>
                             )
                         })
@@ -84,16 +84,25 @@ class ComponentName extends React.Component<ITablePropType, any> {
         )
     }
 
-    renderChildTD = (item: any) => {
+    renderChildTD = (item: any, pIndex: number) => {
         const { columns, tdBodyCSS } = this.props;
         return columns.map((col: any, index: number) => {
+            const data = item[col.name];
             const renderFunction = col.render;
-            if (renderFunction) {
-                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item)}</td>
+            if (data) {
+                if (renderFunction) {
+                    return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item, pIndex)}</td>
+                } else {
+                    return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{data}</td>
+                }
             } else {
-                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{item[col.name]}</td>
+                // let the user handle the data of this column on his own
+                if (renderFunction) {
+                    return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item, pIndex)}</td>
+                } else {
+                    return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>-</td>
+                }
             }
-
         })
     }
 
@@ -162,21 +171,52 @@ export const Pagination = (props: IPaginationPropType) => {
     const prevCSS = isFirstPage ? props.previousButtonDisableCSS : props.previousButtonActiveCSS;
     const nextCSS = isLastPage ? props.nextButtonDisableCSS : props.nextButtonActiveCSS;
 
-    const renderSummary = props.renderSummary ? props.renderSummary(currentPageIndex, currentPageItemCount, total) : `${currentPageIndex} to ${currentPageItemCount} of ${total}`;
+
 
     const renderNextPrevButton = () => {
-        return (
-            <React.Fragment>
-                <button className={prevCSS} onClick={() => isFirstPage ? undefined : props.onPageChange(page - 1)}>{props.previousButtonText}</button>
-                <button className={nextCSS} onClick={() => isLastPage ? undefined : props.onPageChange(page + 1)}>{props.nextButtonText}</button>
-            </React.Fragment>
-        )
+        const renderPaging = () => {
+            return (
+                <React.Fragment>
+                    <button className={prevCSS} onClick={() => isFirstPage ? undefined : props.onPageChange(page - 1)}>{props.previousButtonText}</button>
+                    <button className={nextCSS} onClick={() => isLastPage ? undefined : props.onPageChange(page + 1)}>{props.nextButtonText}</button>
+                </React.Fragment>
+            )
+        }
+
+        // if we are on first page and total items in list are less than limit then dont render pagination
+        // else render the usual
+        if (page === 1 && currentPageItemCount <= limit) {
+            return null;
+        } else {
+            return renderPaging();
+        }
+
+    }
+
+    const renderSummary = () => {
+        const renderSummaryNested = () => {
+            if (props.renderSummary) {
+                props.renderSummary(currentPageIndex, currentPageItemCount, total);
+            } else {
+                return `${currentPageIndex} to ${currentPageItemCount} of ${total}`;
+            }
+        }
+
+        // if we are on first page and total items in list are less than limit then dont render summary
+        // else render the usual
+        if (page === 1 && currentPageItemCount <= limit) {
+            return null;
+        } else {
+            return renderSummaryNested();
+        }
     }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-                {renderSummary}
+                {
+                    props.showSummary && renderSummary()
+                }
             </div>
             <div>
                 {
