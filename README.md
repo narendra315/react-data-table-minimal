@@ -1,4 +1,21 @@
-## Example Usage
+# ns-data-table
+A clean and minimal Data table for React. 
+
+
+### Features
+1. Set custom header names
+2. Render the content in the cell the way you want
+3. Sorting table data by sorting data in columns.
+4. Override the default styling with your CSS.
+5. Custom Pagination implementation.
+
+### Install
+https://www.npmjs.com/package/ns-data-table
+
+Through npm
+`npm install ns-data-table --save`
+
+### Example Usage
 
 ``` jsx
 import DataTable, { Pagination } from 'ns-data-table';

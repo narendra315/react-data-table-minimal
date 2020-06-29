@@ -60,7 +60,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
                                         {item.label}
                                         {
                                             item.sort ?
-                                                item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <i className="fas fa-caret-up ml-1" /> : renderDescCaretIcon ? renderDescCaretIcon() : <i className="fas fa-caret-down ml-1" />) : null
+                                                item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <span>&#8593;</span> : renderDescCaretIcon ? renderDescCaretIcon() : <span>&#8595;</span>) : <span>&#8597;</span>
                                                 : null
                                         }
                                     </th>
@@ -89,7 +89,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
         return columns.map((col: any, index: number) => {
             const renderFunction = col.render;
             if (renderFunction) {
-                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item[col.name])}</td>
+                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item[col.name], item)}</td>
             } else {
                 return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{item[col.name]}</td>
             }
