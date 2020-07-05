@@ -18,7 +18,7 @@ Through npm
 ### Example Usage
 
 ``` jsx
-import DataTable, { Pagination } from 'ns-data-table';
+import DataTable, { NextPrevPagination, NumberPagination } from 'ns-data-table';
 
 this.state = {
     page:1, 
@@ -71,14 +71,13 @@ const products = [
     limit={limit}
 />
 
-<Pagination
+<NextPrevPagination
     page={page}
     limit={limit}
     total={products.length}
-    onPageChange={this.onPageChange}
-
     showSummary={true}
     showNextPrevButtons={true}
+    onPageChange={this.onPageChange}
 
     previousButtonActiveCSS="btn btn-primary btn-active"
     previousButtonDisableCSS="btn btn-primary disabled"
@@ -88,4 +87,25 @@ const products = [
     nextButtonDisableCSS="btn btn-primary disabled"
     nextButtonText="Next"
 />
+
+<NumberPagination
+    page={page}
+    limit={limit}
+    total={products.length}
+    showSummary={true}
+    showNumbers={true}
+    onPageChange={this.onPageChange}
+
+    firstButtonActiveCSS="btn btn-primary btn-active"
+    firstButtonDisableCSS="btn btn-primary disabled"
+    firstButtonText="First"
+    
+    lastButtonActiveCSS="btn btn-primary btn-active"
+    lastButtonDisableCSS="btn btn-primary disabled"
+    lastButtonText="Last"
+
+    pageButtonCSS="btn"
+    activePageButtonCSS="btn btn-active"
+/>
+
 ```
