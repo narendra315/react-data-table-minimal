@@ -109,6 +109,7 @@ const products = [
     pageButtonCSS="btn"
     activePageButtonCSS="btn btn-active"
 />
+```
 
 ### Data Table Props
 
@@ -165,4 +166,3 @@ const products = [
 | lastButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
 | pageButtonCSS |   Yes         | string        |css to use on the number buttons|
 | activePageButtonCSS |   Yes         | string        |css to use on the number button which is active|
-```

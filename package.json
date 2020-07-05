@@ -1,6 +1,6 @@
 {
   "name": "ns-data-table",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A clean and minimal Data table for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
