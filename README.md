@@ -1,8 +1,9 @@
 # ns-data-table
+
 A clean and minimal Data table for React. 
 
-
 ### Features
+
 1. Set custom header names
 2. Render the content in the cell the way you want
 3. Sorting table data by sorting data in columns.
@@ -10,10 +11,11 @@ A clean and minimal Data table for React.
 5. Custom Pagination implementation.
 
 ### Install
+
 https://www.npmjs.com/package/ns-data-table
 
 Through npm
-`npm install ns-data-table --save`
+ `npm install ns-data-table --save`
 
 ### Example Usage
 
@@ -108,4 +110,59 @@ const products = [
     activePageButtonCSS="btn btn-active"
 />
 
+### Data Table Props
+
+|   Name    |   Optional   |   Data type   |   Description |
+|-----------|---------------|---------------|---------------|
+| data      |   No         | Array[obj]    |Array of object|
+| columns   |   No         | Array[obj]    |Array of object which define the attributes of a table column|
+| noDataMessage|   Yes         | string        |Message to be shown when no records are found|
+| page      |   Yes         | number        |current page number|
+| limit     |   Yes         | number        |Array of object|
+| sortBy    |   Yes         | string        |key on which default sorting is to be applied|
+| sortOrder |   Yes         | string        |sort order of default sorting "asc" or "desc"|
+| renderAscCaretIcon() |   Yes         | method        |override the ascending icon used for sorting in header|
+| renderDescCaretIcon() |   Yes         | method        |override the descending icon used for sorting in header|
+| tableCSS |   Yes         | string        |override the styling of the table with this|
+| trHeadCSS |   Yes         | string        |override the styling of the tr in thead with this|
+| tdHeadCSS |   Yes         | string        |override the styling of the td in thead with this|
+| trBodyCSS |   Yes         | string        |override the styling of the tr in tbody with this|
+| tdBodyCSS |   Yes         | string        |override the styling of the td in tbody with this|
+
+### NextPrevPagination Props
+|   Name    |   Optional   |   Data type   |   Description |
+|-----------|---------------|---------------|---------------|
+| page      |   No         | number        |current page number. ex: 1|
+| limit     |   No         | number        |limit or page size. ex: 10|
+| total     |   No         | number        |total no of records found. ex:145|
+| onPageChange   |   No         | method    | method to override when the page no gets changed. ex. onPageChange(pageNo)|
+| renderSummary|   Yes         | method        |if you want to render the page summary the way you want. ex.renderSummary(start, end, total)|
+| showSummary     |   No         | boolean        |do you want to show the page summary or not|
+| showNextPrevButtons    |   No         | boolean        |do you want to show the pagination buttons or not|
+| previousButtonText |   Yes         | string        |Text to be used on the the previous button|
+| previousButtonActiveCSS |   Yes         | string        |css to use when the button is active|
+| previousButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
+| nextButtonText |   Yes         | string        |Text to be used on the the next button|
+| nextButtonActiveCSS |   Yes         | string        |css to use when the button is active|
+| nextButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
+
+### NumberPagination Props
+
+|   Name    |   Optional   |   Data type   |   Description |
+|-----------|---------------|---------------|---------------|
+| page      |   No         | number        |current page number. ex: 1|
+| limit     |   No         | number        |limit or page size. ex: 10|
+| total     |   No         | number        |total no of records found. ex:145|
+| onPageChange   |   No         | method    | method to override when the page no gets changed. ex. onPageChange(pageNo)|
+| renderSummary|   Yes         | method        |if you want to render the page summary the way you want. ex.renderSummary(start, end, total)|
+| showSummary     |   No         | boolean        |do you want to show the page summary or not|
+| showNextPrevButtons    |   No         | boolean        |do you want to show the pagination buttons or not|
+| firstButtonText |   Yes         | string        |Text to be used on the the first button|
+| firstButtonActiveCSS |   Yes         | string        |css to use when the button is active|
+| firstButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
+| lastButtonText |   Yes         | string        |Text to be used on the the last button|
+| lastButtonActiveCSS |   Yes         | string        |css to use when the button is active|
+| lastButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
+| pageButtonCSS |   Yes         | string        |css to use on the number buttons|
+| activePageButtonCSS |   Yes         | string        |css to use on the number button which is active|
 ```

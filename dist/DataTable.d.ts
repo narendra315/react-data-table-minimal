@@ -22,20 +22,4 @@ declare class ComponentName extends React.Component<ITablePropType, any> {
     sortData: (e: any) => void;
     compareValues: (key: any, order?: string) => (a: any, b: any) => number;
 }
-interface IPaginationPropType {
-    page: number;
-    limit: number;
-    total: number;
-    onPageChange(e: number): any;
-    renderSummary?(start: number, end: number, total: number): any;
-    showSummary: boolean;
-    showNextPrevButtons: boolean;
-    previousButtonActiveCSS?: string;
-    previousButtonDisableCSS?: string;
-    previousButtonText?: string;
-    nextButtonActiveCSS?: string;
-    nextButtonDisableCSS?: string;
-    nextButtonText?: string;
-}
-export declare const Pagination: (props: IPaginationPropType) => JSX.Element;
 export default ComponentName;
