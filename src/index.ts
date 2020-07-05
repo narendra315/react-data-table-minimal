@@ -1,4 +1,6 @@
-import DataTable, { Pagination } from './DataTable';
+import DataTable from './DataTable';
+import NextPrevPagination from './NextPrevPagination';
+import NumberPagination from './NumberPagination';
 
-export { Pagination };
+export { NextPrevPagination, NumberPagination };
 export default DataTable;

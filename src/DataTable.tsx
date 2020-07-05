@@ -21,7 +21,9 @@ interface ITablePropType {
     sortOrder?: string,
 
     page?: number,
-    limit?: number
+    limit?: number,
+
+    noDataMessage?: string
 }
 class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any) {
@@ -35,7 +37,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
 
     render() {
         const { tableCSS, trHeadCSS, tdHeadCSS, trBodyCSS, tdBodyCSS } = this.props;
-        const { columns, data, page, limit } = this.props;
+        const { columns, data, page, limit, noDataMessage } = this.props;
         const { renderAscCaretIcon, renderDescCaretIcon } = this.props;
         const { sortBy, sortOrder } = this.state;
 
@@ -78,6 +80,9 @@ class ComponentName extends React.Component<ITablePropType, any> {
                                 </tr>
                             )
                         })
+                    }
+                    {
+                        noDataMessage && (processedData !== undefined || processedData !== null) && processedData.length === 0 && <td colSpan={columns.length} style={{ textAlign: 'center' }}>{noDataMessage ? noDataMessage : ''}</td>
                     }
                 </tbody>
             </table >
