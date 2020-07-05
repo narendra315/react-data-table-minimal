@@ -84,7 +84,7 @@ var ComponentName = (function (_super) {
     ComponentName.prototype.render = function () {
         var _this = this;
         var _a = this.props, tableCSS = _a.tableCSS, trHeadCSS = _a.trHeadCSS, tdHeadCSS = _a.tdHeadCSS, trBodyCSS = _a.trBodyCSS, tdBodyCSS = _a.tdBodyCSS;
-        var _b = this.props, columns = _b.columns, data = _b.data, page = _b.page, limit = _b.limit;
+        var _b = this.props, columns = _b.columns, data = _b.data, page = _b.page, limit = _b.limit, noDataMessage = _b.noDataMessage;
         var _c = this.props, renderAscCaretIcon = _c.renderAscCaretIcon, renderDescCaretIcon = _c.renderDescCaretIcon;
         var _d = this.state, sortBy = _d.sortBy, sortOrder = _d.sortOrder;
         var processedData = [];
@@ -106,9 +106,11 @@ var ComponentName = (function (_super) {
                             item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : React.createElement("span", { style: { marginLeft: '0.2rem' } }, "\u2191") : renderDescCaretIcon ? renderDescCaretIcon() : React.createElement("span", { style: { marginLeft: '0.2rem' } }, "\u2193")) : null
                             : null));
                 }))),
-            React.createElement("tbody", null, processedData.map(function (item, index) {
-                return (React.createElement("tr", { key: index, className: trBodyCSS }, _this.renderChildTD(item, index)));
-            }))));
+            React.createElement("tbody", null,
+                processedData.map(function (item, index) {
+                    return (React.createElement("tr", { key: index, className: trBodyCSS }, _this.renderChildTD(item, index)));
+                }),
+                noDataMessage && (processedData !== undefined || processedData !== null) && processedData.length === 0 && React.createElement("td", { colSpan: columns.length, style: { textAlign: 'center' } }, noDataMessage ? noDataMessage : ''))));
     };
     return ComponentName;
 }(React.Component));

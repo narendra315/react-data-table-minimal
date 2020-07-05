@@ -13,6 +13,7 @@ interface ITablePropType {
     sortOrder?: string;
     page?: number;
     limit?: number;
+    noDataMessage?: string;
 }
 declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);
