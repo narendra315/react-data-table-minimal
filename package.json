@@ -1,6 +1,6 @@
 {
   "name": "ns-data-table",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "A clean and minimal Data table for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
     "lightweight data table"
   ],
   "author": "Narendra Singh",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/react": "^16.9.41",
     "react": "^16.13.1",
