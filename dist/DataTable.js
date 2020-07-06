@@ -109,7 +109,7 @@ var ComponentName = (function (_super) {
                 processedData.map(function (item, index) {
                     return (React.createElement("tr", { key: index, className: trBodyCSS }, _this.renderChildTD(item, index)));
                 }),
-                noDataMessage && (processedData !== undefined || processedData !== null) && processedData.length === 0 && React.createElement("td", { colSpan: columns.length, style: { textAlign: 'center' } }, noDataMessage ? noDataMessage : ''))));
+                (processedData !== undefined || processedData !== null) && processedData.length === 0 && React.createElement("td", { colSpan: columns.length, style: { textAlign: 'center' } }, noDataMessage ? noDataMessage : 'No records found'))));
     };
     return ComponentName;
 }(React.Component));

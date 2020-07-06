@@ -36,7 +36,7 @@ var ComponentName = function (props) {
         return renderSummaryNested();
     };
     return (React.createElement("div", { style: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } },
-        React.createElement("div", null, props.showSummary && renderSummary()),
-        React.createElement("div", null, props.showNextPrevButtons && renderNextPrevButton())));
+        React.createElement("div", null, total !== 0 && props.showSummary && renderSummary()),
+        React.createElement("div", null, total !== 0 && props.showNextPrevButtons && renderNextPrevButton())));
 };
 exports.default = ComponentName;
