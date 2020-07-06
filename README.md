@@ -11,6 +11,7 @@ A clean and minimal Data table for React.
 5. Custom Pagination implementation.
 
 ### Install
+https://img.shields.io/npm/dm/ns-data-table
 
 https://www.npmjs.com/package/ns-data-table
 
