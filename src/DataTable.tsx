@@ -82,7 +82,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
                         })
                     }
                     {
-                        noDataMessage && (processedData !== undefined || processedData !== null) && processedData.length === 0 && <td colSpan={columns.length} style={{ textAlign: 'center' }}>{noDataMessage ? noDataMessage : ''}</td>
+                        (processedData !== undefined || processedData !== null) && processedData.length === 0 && <td colSpan={columns.length} style={{ textAlign: 'center' }}>{noDataMessage ? noDataMessage : 'No records found'}</td>
                     }
                 </tbody>
             </table >

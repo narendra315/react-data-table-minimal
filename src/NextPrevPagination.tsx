@@ -68,12 +68,12 @@ const ComponentName = (props: IPaginationPropType) => {
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
                 {
-                    props.showSummary && renderSummary()
+                    total !== 0 && props.showSummary && renderSummary()
                 }
             </div>
             <div>
                 {
-                    props.showNextPrevButtons && renderNextPrevButton()
+                    total !== 0 && props.showNextPrevButtons && renderNextPrevButton()
                 }
             </div>
         </div >

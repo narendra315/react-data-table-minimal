@@ -87,12 +87,12 @@ const ComponentName = (props: IPaginationPropType) => {
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
                 {
-                    props.showSummary && renderSummary()
+                    total !== 0 && props.showSummary && renderSummary()
                 }
             </div>
             <div>
                 {
-                    props.showNumbers && renderNumbers()
+                    total !== 0 && props.showNumbers && renderNumbers()
                 }
             </div>
         </div >
