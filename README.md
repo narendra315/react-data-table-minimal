@@ -10,6 +10,9 @@ A clean and minimal Data table for React.
 4. Override the default styling with your CSS.
 5. Custom Pagination implementation.
 
+### Live Demo
+https://stackblitz.com/edit/react-fa4qtm
+
 ### Install
 [![npm](https://img.shields.io/npm/dm/ns-data-table.svg)](https://www.npmjs.com/package/ns-data-table)
 
