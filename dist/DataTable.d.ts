@@ -14,6 +14,8 @@ interface ITablePropType {
     page?: number;
     limit?: number;
     noDataMessage?: string;
+    showLoader?: boolean;
+    renderLoader?(): any;
 }
 declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);

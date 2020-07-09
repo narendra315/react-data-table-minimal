@@ -23,7 +23,9 @@ interface ITablePropType {
     page?: number,
     limit?: number,
 
-    noDataMessage?: string
+    noDataMessage?: string,
+    showLoader?: boolean,
+    renderLoader?(): any
 }
 class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any) {
@@ -37,7 +39,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
 
     render() {
         const { tableCSS, trHeadCSS, tdHeadCSS, trBodyCSS, tdBodyCSS } = this.props;
-        const { columns, data, page, limit, noDataMessage } = this.props;
+        const { columns, data, page, limit, noDataMessage, showLoader, renderLoader } = this.props;
         const { renderAscCaretIcon, renderDescCaretIcon } = this.props;
         const { sortBy, sortOrder } = this.state;
 
@@ -73,6 +75,14 @@ class ComponentName extends React.Component<ITablePropType, any> {
                 </thead>
                 <tbody>
                     {
+                        showLoader && renderLoader === undefined && <td colSpan={columns.length} style={{ textAlign: "center" }}>
+                            Loading...
+                        </td>
+                    }
+                    {
+                        showLoader && renderLoader && renderLoader()
+                    }
+                    {
                         processedData.map((item: any, index: number) => {
                             return (
                                 <tr key={index} className={trBodyCSS}>
@@ -82,7 +92,10 @@ class ComponentName extends React.Component<ITablePropType, any> {
                         })
                     }
                     {
-                        (processedData !== undefined || processedData !== null) && processedData.length === 0 && <td colSpan={columns.length} style={{ textAlign: 'center' }}>{noDataMessage ? noDataMessage : 'No records found'}</td>
+                        (showLoader === false || showLoader === undefined)
+                        && (processedData !== undefined || processedData !== null)
+                        && processedData.length === 0
+                        && <td colSpan={columns.length} style={{ textAlign: 'center' }}>{noDataMessage ? noDataMessage : 'No records found'}</td>
                     }
                 </tbody>
             </table >
