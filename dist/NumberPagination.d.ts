@@ -4,9 +4,6 @@ interface IPaginationPropType {
     limit: number;
     total: number;
     onPageChange(e: number): any;
-    renderSummary?(start: number, end: number, total: number): any;
-    showSummary: boolean;
-    showNumbers: boolean;
     firstButtonActiveCSS?: string;
     firstButtonDisableCSS?: string;
     firstButtonText?: string;
