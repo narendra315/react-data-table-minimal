@@ -5,10 +5,6 @@ interface IPaginationPropType {
     limit: number,
     total: number,
     onPageChange(e: number): any,
-    renderSummary?(start: number, end: number, total: number): any,
-
-    showSummary: boolean,
-    showNextPrevButtons: boolean,
 
     previousButtonActiveCSS?: string,
     previousButtonDisableCSS?: string,
@@ -21,13 +17,10 @@ interface IPaginationPropType {
 const ComponentName = (props: IPaginationPropType) => {
     const { page, limit, total } = props;
 
-    const currentPageIndex = (page - 1) * limit === 0 ? 1 : (page - 1) * limit;
     const currentPageLimit = page * limit;
-    const currentPageItemCount = currentPageLimit > total ? (currentPageIndex - 1) + (total - (page * limit)) + limit : currentPageLimit;
 
     const isFirstPage = page === 1;
     const isLastPage = currentPageLimit >= total;
-    const totalPage = Math.ceil(total / limit);
 
     const prevCSS = isFirstPage ? props.previousButtonDisableCSS : props.previousButtonActiveCSS;
     const nextCSS = isLastPage ? props.nextButtonDisableCSS : props.nextButtonActiveCSS;
@@ -52,31 +45,12 @@ const ComponentName = (props: IPaginationPropType) => {
 
     }
 
-    const renderSummary = () => {
-        const renderSummaryNested = () => {
-            if (props.renderSummary) {
-                props.renderSummary(currentPageIndex, currentPageItemCount, total);
-            } else {
-                return `${currentPageIndex} to ${currentPageItemCount} of ${total}`;
-            }
-        }
-
-        return renderSummaryNested();
-    }
-
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-                {
-                    total !== 0 && props.showSummary && renderSummary()
-                }
-            </div>
-            <div>
-                {
-                    total !== 0 && props.showNextPrevButtons && renderNextPrevButton()
-                }
-            </div>
-        </div >
+        <React.Fragment>
+            {
+                total !== 0 && renderNextPrevButton()
+            }
+        </React.Fragment>
     )
 }
 

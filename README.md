@@ -11,9 +11,11 @@ A clean and minimal Data table for React.
 5. Custom Pagination implementation.
 
 ### Live Demo
+
 https://stackblitz.com/edit/react-fa4qtm
 
 ### Install
+
 [![npm](https://img.shields.io/npm/dm/ns-data-table.svg)](https://www.npmjs.com/package/ns-data-table)
 
 https://www.npmjs.com/package/ns-data-table
@@ -24,7 +26,7 @@ Through npm
 ### Example Usage
 
 ``` jsx
-import DataTable, { NextPrevPagination, NumberPagination } from 'ns-data-table';
+import DataTable, { Summary, NextPrevPagination, NumberPagination } from 'ns-data-table';
 
 this.state = {
     page:1, 
@@ -75,14 +77,27 @@ const products = [
     sortOrder="asc"
     page={page}
     limit={limit}
+    showLoader={true}
+    renderLoader={()=>{ return (<span>Loading...</span>) }}
+/>
+
+<Summary
+    page={page}
+    limit={limit}
+    total={products.length}
+    render={(start, end, total) => {
+        return (
+        <React.Fragment>
+            { `Showing ${start} to ${end} records of ${total} records` }
+        </React.Fragment>
+        )
+    }}
 />
 
 <NextPrevPagination
     page={page}
     limit={limit}
     total={products.length}
-    showSummary={true}
-    showNextPrevButtons={true}
     onPageChange={this.onPageChange}
 
     previousButtonActiveCSS="btn btn-primary btn-active"
@@ -98,8 +113,6 @@ const products = [
     page={page}
     limit={limit}
     total={products.length}
-    showSummary={true}
-    showNumbers={true}
     onPageChange={this.onPageChange}
 
     firstButtonActiveCSS="btn btn-primary btn-active"
@@ -133,17 +146,26 @@ const products = [
 | tdHeadCSS |   Yes         | string        |override the styling of the td in thead with this|
 | trBodyCSS |   Yes         | string        |override the styling of the tr in tbody with this|
 | tdBodyCSS |   Yes         | string        |override the styling of the td in tbody with this|
+| showLoader |   Yes         | boolean        |setting it to true shows you the default loading message|
+| renderLoader |   Yes         | method        |override the default rendering of loader|
+
+### Summary Props
+
+|   Name    |   Optional   |   Data type   |   Description |
+|-----------|---------------|---------------|---------------|
+| page      |   No         | number        |current page number. ex: 1|
+| limit     |   No         | number        |limit or page size. ex: 10|
+| total     |   No         | number        |total no of records found. ex:145|
+| render   |   Yes         | method    | method to override the default rendering of summary. ex. render=(start, end, total)=>{return(...)}|
 
 ### NextPrevPagination Props
+
 |   Name    |   Optional   |   Data type   |   Description |
 |-----------|---------------|---------------|---------------|
 | page      |   No         | number        |current page number. ex: 1|
 | limit     |   No         | number        |limit or page size. ex: 10|
 | total     |   No         | number        |total no of records found. ex:145|
 | onPageChange   |   No         | method    | method to override when the page no gets changed. ex. onPageChange(pageNo)|
-| renderSummary|   Yes         | method        |if you want to render the page summary the way you want. ex.renderSummary(start, end, total)|
-| showSummary     |   No         | boolean        |do you want to show the page summary or not|
-| showNextPrevButtons    |   No         | boolean        |do you want to show the pagination buttons or not|
 | previousButtonText |   Yes         | string        |Text to be used on the the previous button|
 | previousButtonActiveCSS |   Yes         | string        |css to use when the button is active|
 | previousButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
@@ -159,9 +181,6 @@ const products = [
 | limit     |   No         | number        |limit or page size. ex: 10|
 | total     |   No         | number        |total no of records found. ex:145|
 | onPageChange   |   No         | method    | method to override when the page no gets changed. ex. onPageChange(pageNo)|
-| renderSummary|   Yes         | method        |if you want to render the page summary the way you want. ex.renderSummary(start, end, total)|
-| showSummary     |   No         | boolean        |do you want to show the page summary or not|
-| showNextPrevButtons    |   No         | boolean        |do you want to show the pagination buttons or not|
 | firstButtonText |   Yes         | string        |Text to be used on the the first button|
 | firstButtonActiveCSS |   Yes         | string        |css to use when the button is active|
 | firstButtonDisableCSS |   Yes         | string        |css to use when the button is disabled|
