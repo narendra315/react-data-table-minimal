@@ -1,13 +1,13 @@
 {
-  "name": "ns-data-table",
-  "version": "1.0.18",
+  "name": "react-data-table-minimal",
+  "version": "1.0.0",
   "description": "A clean and minimal Data table for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/narendra315/ns-data-table",
+  "repository": "https://github.com/narendra315/react-data-table-minimal",
   "scripts": {
     "prepare": "tsc && echo 'Finished building NPM package'"
   },

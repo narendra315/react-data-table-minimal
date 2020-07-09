@@ -1,4 +1,4 @@
-# ns-data-table
+# react-data-table-minimal
 
 A clean and minimal Data table for React. 
 
@@ -16,17 +16,17 @@ https://stackblitz.com/edit/react-fa4qtm
 
 ### Install
 
-[![npm](https://img.shields.io/npm/dm/ns-data-table.svg)](https://www.npmjs.com/package/ns-data-table)
+[![npm](https://img.shields.io/npm/dm/react-data-table-minimal.svg)](https://www.npmjs.com/package/react-data-table-minimal)
 
-https://www.npmjs.com/package/ns-data-table
+https://www.npmjs.com/package/react-data-table-minimal
 
 Through npm
- `npm install ns-data-table --save`
+ `npm install react-data-table-minimal --save`
 
 ### Example Usage
 
 ``` jsx
-import DataTable, { Summary, NextPrevPagination, NumberPagination } from 'ns-data-table';
+import DataTable, { Summary, NextPrevPagination, NumberPagination } from 'react-data-table-minimal';
 
 this.state = {
     page:1, 
