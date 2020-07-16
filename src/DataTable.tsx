@@ -1,8 +1,10 @@
 import * as React from 'react';
 
 const CONST = {
-    sortOrder: { ascending: 'asc', descending: 'desc' }
+    sortOrder: { ascending: 'asc', descending: 'desc' },
+    control: { checkbox: 'checkbox', radio: 'radio' }
 }
+
 
 interface ITablePropType {
     tableCSS?: string,
@@ -25,15 +27,19 @@ interface ITablePropType {
 
     noDataMessage?: string,
     showLoader?: boolean,
-    renderLoader?(): any
+    renderLoader?(): any,
+
+    onSelection?(items: any): any
 }
+
 class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any) {
         super(props);
         const { sortBy, sortOrder } = props;
         this.state = {
             sortBy: sortBy,
-            sortOrder: sortOrder
+            sortOrder: sortOrder,
+            selectedArrKey: [],
         }
     }
 
@@ -43,16 +49,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
         const { renderAscCaretIcon, renderDescCaretIcon } = this.props;
         const { sortBy, sortOrder } = this.state;
 
-        let processedData = [];
-        const sortedData = data.sort(this.compareValues(sortBy, sortOrder));
-        if (page && limit) {
-            const from = (page - 1) * limit;
-            const till = page * limit;
-            processedData = sortedData.slice(from, till);
-        } else {
-            processedData = sortedData;
-        }
-
+        let processedData = this.processData();
         return (
             <table className={tableCSS}>
                 <thead>
@@ -61,11 +58,20 @@ class ComponentName extends React.Component<ITablePropType, any> {
                             columns.map((item: any, index: number) => {
                                 return (
                                     <th key={index} onClick={item.sort ? this.sortData : undefined} data-name={item.name} className={tdHeadCSS ? tdHeadCSS : ""} style={item.sort ? { cursor: 'pointer' } : {}}>
-                                        {item.label}
                                         {
-                                            item.sort ?
-                                                item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8593;</span> : renderDescCaretIcon ? renderDescCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8595;</span>) : null
-                                                : null
+                                            item.checkbox ?
+                                                <React.Fragment>
+                                                    <input type="checkbox" data-key={item.name} onClick={this.onSelectAll} />
+                                                </React.Fragment>
+                                                :
+                                                <React.Fragment>
+                                                    {item.label}
+                                                    {
+                                                        item.sort ?
+                                                            item.name === sortBy ? (sortOrder === CONST.sortOrder.ascending ? renderAscCaretIcon ? renderAscCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8593;</span> : renderDescCaretIcon ? renderDescCaretIcon() : <span style={{ marginLeft: '0.2rem' }}>&#8595;</span>) : null
+                                                            : null
+                                                    }
+                                                </React.Fragment>
                                         }
                                     </th>
                                 )
@@ -104,15 +110,25 @@ class ComponentName extends React.Component<ITablePropType, any> {
 
     renderChildTD = (item: any, pIndex: number) => {
         const { columns, tdBodyCSS } = this.props;
+        const { selectedArrKey } = this.state;
         return columns.map((col: any, index: number) => {
+            const checkbox = col.checkbox;
+            const radio = col.radio;
             const data = item[col.name];
             const renderFunction = col.render;
-            if (data) {
+
+            if (data && (checkbox === undefined || checkbox === false || checkbox === null) && (radio === undefined || radio === false || radio === null)) {
                 if (renderFunction) {
                     return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{renderFunction(item, pIndex)}</td>
                 } else {
                     return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}>{data}</td>
                 }
+            } else if (data && checkbox) {
+                const checked = selectedArrKey.indexOf(String(data)) > -1;
+                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}><input onClick={this.onSelection} type="checkbox" value={data} data-key={col.name} checked={checked} /></td>
+            } else if (data && radio) {
+                const checked = selectedArrKey.indexOf(String(data)) > -1;
+                return <td className={tdBodyCSS ? tdBodyCSS : ""} key={index}><input onClick={this.onSelection} type="radio" name="dt-radio" value={data} data-key={col.name} checked={checked} /></td>
             } else {
                 // let the user handle the data of this column on his own
                 if (renderFunction) {
@@ -122,6 +138,21 @@ class ComponentName extends React.Component<ITablePropType, any> {
                 }
             }
         })
+    }
+
+    processData = () => {
+        const { columns, data, page, limit, noDataMessage, showLoader, renderLoader } = this.props;
+        const { sortBy, sortOrder } = this.state;
+        let processedData = [];
+        const sortedData = data.sort(this.compareValues(sortBy, sortOrder));
+        if (page && limit) {
+            const from = (page - 1) * limit;
+            const till = page * limit;
+            processedData = sortedData.slice(from, till);
+        } else {
+            processedData = sortedData;
+        }
+        return processedData;
     }
 
     sortData = (e: any) => {
@@ -156,6 +187,53 @@ class ComponentName extends React.Component<ITablePropType, any> {
                 (order === CONST.sortOrder.descending) ? (comparison * -1) : comparison
             );
         };
+    }
+
+    onSelection = (e: any) => {
+        const key = e.target.dataset.key;
+        const value = e.target.value;
+        const checked = e.target.checked;
+        const type = e.target.type;
+
+        if (type === CONST.control.radio) {
+            const selectedArrKey: any = [];
+            selectedArrKey.push(value);
+            this.setState({ selectedArrKey }, () => {
+                this.exportSelection(key)
+            });
+        } else {
+            const selectedArrKey = JSON.parse(JSON.stringify(this.state.selectedArrKey));
+            if (checked) {
+                selectedArrKey.push(value);
+            } else {
+                const index = selectedArrKey.indexOf(value);
+                selectedArrKey.splice(index, 1);
+            }
+            this.setState({ selectedArrKey }, () => {
+                this.exportSelection(key)
+            });
+        }
+    }
+
+    onSelectAll = (e: any) => {
+        const checked = e.target.checked;
+        const key = e.target.dataset.key;
+        let selectedArrKey: any = [];
+        if (checked) {
+            selectedArrKey = this.processData().map((i: any) => String(i[key]));
+        }
+        this.setState({ selectedArrKey }, () => {
+            this.exportSelection(key)
+        });
+    }
+
+    exportSelection = (key: string) => {
+        const { selectedArrKey } = this.state;
+        const items = this.processData().filter((i: any) => {
+            const index = selectedArrKey.indexOf(String(i[key]))
+            return index > -1;
+        })
+        this.props.onSelection && this.props.onSelection(items);
     }
 }
 

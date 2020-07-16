@@ -1,6 +1,6 @@
 {
   "name": "react-data-table-minimal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A clean and minimal Data table for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,11 +13,8 @@
   },
   "keywords": [
     "react",
-    "data table",
-    "data grid",
-    "grid",
-    "table",
     "react data table",
+    "react data table minimal",
     "react data grid",
     "lightweight data table"
   ],

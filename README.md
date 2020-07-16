@@ -9,6 +9,7 @@ A clean and minimal Data table for React.
 3. Sorting table data by sorting data in columns.
 4. Override the default styling with your CSS.
 5. Custom Pagination implementation.
+6. Selection of row using checkbox and radio button.
 
 ### Live Demo
 
@@ -34,6 +35,16 @@ this.state = {
 };
 
 const columns = [{
+            name: 'id',
+            label: '',
+            checkbox: true
+        },
+        {
+            name: 'id',
+            label: 'Radio',
+            radio: true
+        },
+        {
             name: 'id',
             label: 'Product ID',
             sort: true
@@ -147,7 +158,9 @@ const products = [
 | trBodyCSS |   Yes         | string        |override the styling of the tr in tbody with this|
 | tdBodyCSS |   Yes         | string        |override the styling of the td in tbody with this|
 | showLoader |   Yes         | boolean        |setting it to true shows you the default loading message|
-| renderLoader |   Yes         | method        |override the default rendering of loader|
+| renderLoader() |   Yes         | method        |override the default rendering of loader|
+| onSelection() |   Yes         | method        |returns the selection item of the table|
+
 
 ### Summary Props
 

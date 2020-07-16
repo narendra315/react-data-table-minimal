@@ -16,12 +16,17 @@ interface ITablePropType {
     noDataMessage?: string;
     showLoader?: boolean;
     renderLoader?(): any;
+    onSelection?(items: any): any;
 }
 declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);
     render(): JSX.Element;
     renderChildTD: (item: any, pIndex: number) => JSX.Element[];
+    processData: () => never[];
     sortData: (e: any) => void;
     compareValues: (key: any, order?: string) => (a: any, b: any) => number;
+    onSelection: (e: any) => void;
+    onSelectAll: (e: any) => void;
+    exportSelection: (key: string) => void;
 }
 export default ComponentName;
