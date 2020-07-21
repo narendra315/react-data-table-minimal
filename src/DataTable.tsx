@@ -35,41 +35,46 @@ interface ITablePropType {
 class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any) {
         super(props);
-        const { sortBy, sortOrder } = props;
+        const { sortBy, sortOrder, columns } = props;
         this.state = {
             sortBy: sortBy,
             sortOrder: sortOrder,
             selectedArrKey: [],
-            updated: false
+            dataUpdatedFromProps: false,
+            data: props.data,
+            columns: columns
         }
     }
 
     static getDerivedStateFromProps(props: any, state: any) {
-        if (props.selected && !state.updated && props.selected.length !== state.selectedArrKey.length) {
-            const { columns, selected } = props;
+        if (JSON.stringify(props.data) !== JSON.stringify(state.data)) {
+            return { data: props.data }
+        }
+
+        if (props.selected && props.selected.length > 0 && state.dataUpdatedFromProps === false) {
+            const { selected } = props;
+            const { columns } = state;
             const keyArr = columns.filter((i: any) => i.checkbox === true || i.radio === true);
             if (keyArr.length > 0) {
                 const key = keyArr[0].name;
                 const selectedArrKey = selected.map((i: any) => String(i[key]));
                 return {
                     selectedArrKey,
-                    updated: true
+                    dataUpdatedFromProps: true
                 };
             } else {
                 return null;
             }
         }
 
-        // Return null to indicate no change to state.
         return null;
     }
 
     render() {
         const { tableCSS, trHeadCSS, tdHeadCSS, trBodyCSS, tdBodyCSS } = this.props;
-        const { columns, data, page, limit, noDataMessage, showLoader, renderLoader } = this.props;
+        const { noDataMessage, showLoader, renderLoader } = this.props;
         const { renderAscCaretIcon, renderDescCaretIcon } = this.props;
-        const { sortBy, sortOrder } = this.state;
-
+        const { sortBy, sortOrder, columns } = this.state;
         let processedData = this.processData();
         return (
             <table className={tableCSS}>
@@ -130,8 +135,8 @@ class ComponentName extends React.Component<ITablePropType, any> {
     }
 
     renderChildTD = (item: any, pIndex: number) => {
-        const { columns, tdBodyCSS } = this.props;
-        const { selectedArrKey } = this.state;
+        const { tdBodyCSS } = this.props;
+        const { columns, selectedArrKey } = this.state;
         return columns.map((col: any, index: number) => {
             const checkbox = col.checkbox;
             const radio = col.radio;
@@ -162,8 +167,8 @@ class ComponentName extends React.Component<ITablePropType, any> {
     }
 
     processData = () => {
-        const { columns, data, page, limit, noDataMessage, showLoader, renderLoader } = this.props;
-        const { sortBy, sortOrder } = this.state;
+        const { columns, page, limit, noDataMessage, showLoader, renderLoader } = this.props;
+        const { data, sortBy, sortOrder } = this.state;
         let processedData = [];
         const sortedData = data.sort(this.compareValues(sortBy, sortOrder));
         if (page && limit) {
@@ -219,7 +224,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
         if (type === CONST.control.radio) {
             const selectedArrKey: any = [];
             selectedArrKey.push(value);
-            this.setState({ selectedArrKey }, () => {
+            this.setState({ selectedArrKey, dataUpdatedFromProps: true }, () => {
                 this.exportSelection(key)
             });
         } else {
@@ -230,7 +235,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
                 const index = selectedArrKey.indexOf(value);
                 selectedArrKey.splice(index, 1);
             }
-            this.setState({ selectedArrKey }, () => {
+            this.setState({ selectedArrKey, dataUpdatedFromProps: true }, () => {
                 this.exportSelection(key)
             });
         }
@@ -243,7 +248,7 @@ class ComponentName extends React.Component<ITablePropType, any> {
         if (checked) {
             selectedArrKey = this.processData().map((i: any) => String(i[key]));
         }
-        this.setState({ selectedArrKey }, () => {
+        this.setState({ selectedArrKey: selectedArrKey, dataUpdatedFromProps: true }, () => {
             this.exportSelection(key)
         });
     }
