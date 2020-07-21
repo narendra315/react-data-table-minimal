@@ -1,6 +1,6 @@
 {
   "name": "react-data-table-minimal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A clean and minimal Data table for React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

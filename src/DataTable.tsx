@@ -40,18 +40,20 @@ class ComponentName extends React.Component<ITablePropType, any> {
             sortBy: sortBy,
             sortOrder: sortOrder,
             selectedArrKey: [],
+            updated: false
         }
     }
 
     static getDerivedStateFromProps(props: any, state: any) {
-        if (props.selected.length !== state.selectedArrKey.length) {
+        if (props.selected && !state.updated && props.selected.length !== state.selectedArrKey.length) {
             const { columns, selected } = props;
             const keyArr = columns.filter((i: any) => i.checkbox === true || i.radio === true);
             if (keyArr.length > 0) {
                 const key = keyArr[0].name;
                 const selectedArrKey = selected.map((i: any) => String(i[key]));
                 return {
-                    selectedArrKey
+                    selectedArrKey,
+                    updated: true
                 };
             } else {
                 return null;

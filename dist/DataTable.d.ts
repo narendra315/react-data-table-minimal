@@ -16,10 +16,14 @@ interface ITablePropType {
     noDataMessage?: string;
     showLoader?: boolean;
     renderLoader?(): any;
+    selected?: [];
     onSelection?(items: any): any;
 }
 declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);
+    static getDerivedStateFromProps(props: any, state: any): {
+        selectedArrKey: any;
+    };
     render(): JSX.Element;
     renderChildTD: (item: any, pIndex: number) => JSX.Element[];
     processData: () => never[];

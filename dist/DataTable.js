@@ -155,6 +155,23 @@ var ComponentName = (function (_super) {
         };
         return _this;
     }
+    ComponentName.getDerivedStateFromProps = function (props, state) {
+        if (props.selected.length !== state.selectedArrKey.length) {
+            var columns = props.columns, selected = props.selected;
+            var keyArr = columns.filter(function (i) { return i.checkbox === true || i.radio === true; });
+            if (keyArr.length > 0) {
+                var key_1 = keyArr[0].name;
+                var selectedArrKey = selected.map(function (i) { return String(i[key_1]); });
+                return {
+                    selectedArrKey: selectedArrKey
+                };
+            }
+            else {
+                return null;
+            }
+        }
+        return null;
+    };
     ComponentName.prototype.render = function () {
         var _this = this;
         var _a = this.props, tableCSS = _a.tableCSS, trHeadCSS = _a.trHeadCSS, tdHeadCSS = _a.tdHeadCSS, trBodyCSS = _a.trBodyCSS, tdBodyCSS = _a.tdBodyCSS;
