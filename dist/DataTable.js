@@ -23,8 +23,8 @@ var ComponentName = (function (_super) {
     function ComponentName(props) {
         var _this = _super.call(this, props) || this;
         _this.renderChildTD = function (item, pIndex) {
-            var _a = _this.props, columns = _a.columns, tdBodyCSS = _a.tdBodyCSS;
-            var selectedArrKey = _this.state.selectedArrKey;
+            var tdBodyCSS = _this.props.tdBodyCSS;
+            var _a = _this.state, columns = _a.columns, selectedArrKey = _a.selectedArrKey;
             return columns.map(function (col, index) {
                 var checkbox = col.checkbox;
                 var radio = col.radio;
@@ -59,8 +59,8 @@ var ComponentName = (function (_super) {
             });
         };
         _this.processData = function () {
-            var _a = _this.props, columns = _a.columns, data = _a.data, page = _a.page, limit = _a.limit, noDataMessage = _a.noDataMessage, showLoader = _a.showLoader, renderLoader = _a.renderLoader;
-            var _b = _this.state, sortBy = _b.sortBy, sortOrder = _b.sortOrder;
+            var _a = _this.props, columns = _a.columns, page = _a.page, limit = _a.limit, noDataMessage = _a.noDataMessage, showLoader = _a.showLoader, renderLoader = _a.renderLoader;
+            var _b = _this.state, data = _b.data, sortBy = _b.sortBy, sortOrder = _b.sortOrder;
             var processedData = [];
             var sortedData = data.sort(_this.compareValues(sortBy, sortOrder));
             if (page && limit) {
@@ -110,7 +110,7 @@ var ComponentName = (function (_super) {
             if (type === CONST.control.radio) {
                 var selectedArrKey = [];
                 selectedArrKey.push(value);
-                _this.setState({ selectedArrKey: selectedArrKey }, function () {
+                _this.setState({ selectedArrKey: selectedArrKey, dataUpdatedFromProps: true }, function () {
                     _this.exportSelection(key);
                 });
             }
@@ -123,7 +123,7 @@ var ComponentName = (function (_super) {
                     var index = selectedArrKey.indexOf(value);
                     selectedArrKey.splice(index, 1);
                 }
-                _this.setState({ selectedArrKey: selectedArrKey }, function () {
+                _this.setState({ selectedArrKey: selectedArrKey, dataUpdatedFromProps: true }, function () {
                     _this.exportSelection(key);
                 });
             }
@@ -135,7 +135,7 @@ var ComponentName = (function (_super) {
             if (checked) {
                 selectedArrKey = _this.processData().map(function (i) { return String(i[key]); });
             }
-            _this.setState({ selectedArrKey: selectedArrKey }, function () {
+            _this.setState({ selectedArrKey: selectedArrKey, dataUpdatedFromProps: true }, function () {
                 _this.exportSelection(key);
             });
         };
@@ -147,25 +147,31 @@ var ComponentName = (function (_super) {
             });
             _this.props.onSelection && _this.props.onSelection(items);
         };
-        var sortBy = props.sortBy, sortOrder = props.sortOrder;
+        var sortBy = props.sortBy, sortOrder = props.sortOrder, columns = props.columns;
         _this.state = {
             sortBy: sortBy,
             sortOrder: sortOrder,
             selectedArrKey: [],
-            updated: false
+            dataUpdatedFromProps: false,
+            data: props.data,
+            columns: columns
         };
         return _this;
     }
     ComponentName.getDerivedStateFromProps = function (props, state) {
-        if (props.selected && !state.updated && props.selected.length !== state.selectedArrKey.length) {
-            var columns = props.columns, selected = props.selected;
+        if (JSON.stringify(props.data) !== JSON.stringify(state.data)) {
+            return { data: props.data };
+        }
+        if (props.selected && props.selected.length > 0 && state.dataUpdatedFromProps === false) {
+            var selected = props.selected;
+            var columns = state.columns;
             var keyArr = columns.filter(function (i) { return i.checkbox === true || i.radio === true; });
             if (keyArr.length > 0) {
                 var key_1 = keyArr[0].name;
                 var selectedArrKey = selected.map(function (i) { return String(i[key_1]); });
                 return {
                     selectedArrKey: selectedArrKey,
-                    updated: true
+                    dataUpdatedFromProps: true
                 };
             }
             else {
@@ -177,9 +183,9 @@ var ComponentName = (function (_super) {
     ComponentName.prototype.render = function () {
         var _this = this;
         var _a = this.props, tableCSS = _a.tableCSS, trHeadCSS = _a.trHeadCSS, tdHeadCSS = _a.tdHeadCSS, trBodyCSS = _a.trBodyCSS, tdBodyCSS = _a.tdBodyCSS;
-        var _b = this.props, columns = _b.columns, data = _b.data, page = _b.page, limit = _b.limit, noDataMessage = _b.noDataMessage, showLoader = _b.showLoader, renderLoader = _b.renderLoader;
+        var _b = this.props, noDataMessage = _b.noDataMessage, showLoader = _b.showLoader, renderLoader = _b.renderLoader;
         var _c = this.props, renderAscCaretIcon = _c.renderAscCaretIcon, renderDescCaretIcon = _c.renderDescCaretIcon;
-        var _d = this.state, sortBy = _d.sortBy, sortOrder = _d.sortOrder;
+        var _d = this.state, sortBy = _d.sortBy, sortOrder = _d.sortOrder, columns = _d.columns;
         var processedData = this.processData();
         return (React.createElement("table", { className: tableCSS },
             React.createElement("thead", null,

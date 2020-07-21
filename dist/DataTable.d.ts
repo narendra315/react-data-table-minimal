@@ -22,12 +22,17 @@ interface ITablePropType {
 declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);
     static getDerivedStateFromProps(props: any, state: any): {
+        data: any;
+        selectedArrKey?: undefined;
+        dataUpdatedFromProps?: undefined;
+    } | {
         selectedArrKey: any;
-        updated: boolean;
+        dataUpdatedFromProps: boolean;
+        data?: undefined;
     };
     render(): JSX.Element;
-    renderChildTD: (item: any, pIndex: number) => JSX.Element[];
-    processData: () => never[];
+    renderChildTD: (item: any, pIndex: number) => any;
+    processData: () => any;
     sortData: (e: any) => void;
     compareValues: (key: any, order?: string) => (a: any, b: any) => number;
     onSelection: (e: any) => void;

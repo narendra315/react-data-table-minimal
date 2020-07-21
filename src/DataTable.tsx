@@ -50,7 +50,6 @@ class ComponentName extends React.Component<ITablePropType, any> {
         if (JSON.stringify(props.data) !== JSON.stringify(state.data)) {
             return { data: props.data }
         }
-
         if (props.selected && props.selected.length > 0 && state.dataUpdatedFromProps === false) {
             const { selected } = props;
             const { columns } = state;
