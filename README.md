@@ -139,6 +139,16 @@ const products = [
 />
 ```
 
+### Data Table Column Props
+
+|   Name    |   Optional   |   Data type   |   Description |
+|-----------|---------------|---------------|---------------|
+| name      |   NO         | string    |name of the attribute from the data being binded|
+| label      |   YES         | string    |label for the column header|
+| sort      |   YES         | boolean    |allows you to implement the sorting on the column|
+| checkbox      |   YES         | boolean    |allows you to add checkbox to the row|
+| radio      |   YES         | boolean   |allows you to add radio button to the row|
+
 ### Data Table Props
 
 |   Name    |   Optional   |   Data type   |   Description |
@@ -160,7 +170,7 @@ const products = [
 | showLoader |   Yes         | boolean        |setting it to true shows you the default loading message|
 | renderLoader() |   Yes         | method        |override the default rendering of loader|
 | onSelection() |   Yes         | method        |returns the selection item of the table|
-
+| selected |   Yes         | Array[obj]        |Array of object for which you want to keep the checkbox checked.
 
 ### Summary Props
 

@@ -5,7 +5,6 @@ const CONST = {
     control: { checkbox: 'checkbox', radio: 'radio' }
 }
 
-
 interface ITablePropType {
     tableCSS?: string,
     trHeadCSS?: string,
@@ -29,6 +28,7 @@ interface ITablePropType {
     showLoader?: boolean,
     renderLoader?(): any,
 
+    selected?: [],
     onSelection?(items: any): any
 }
 
@@ -41,6 +41,25 @@ class ComponentName extends React.Component<ITablePropType, any> {
             sortOrder: sortOrder,
             selectedArrKey: [],
         }
+    }
+
+    static getDerivedStateFromProps(props: any, state: any) {
+        if (props.selected.length !== state.selectedArrKey.length) {
+            const { columns, selected } = props;
+            const keyArr = columns.filter((i: any) => i.checkbox === true || i.radio === true);
+            if (keyArr.length > 0) {
+                const key = keyArr[0].name;
+                const selectedArrKey = selected.map((i: any) => String(i[key]));
+                return {
+                    selectedArrKey
+                };
+            } else {
+                return null;
+            }
+        }
+
+        // Return null to indicate no change to state.
+        return null;
     }
 
     render() {
