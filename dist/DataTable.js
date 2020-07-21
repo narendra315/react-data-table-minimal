@@ -152,18 +152,20 @@ var ComponentName = (function (_super) {
             sortBy: sortBy,
             sortOrder: sortOrder,
             selectedArrKey: [],
+            updated: false
         };
         return _this;
     }
     ComponentName.getDerivedStateFromProps = function (props, state) {
-        if (props.selected.length !== state.selectedArrKey.length) {
+        if (props.selected && !state.updated && props.selected.length !== state.selectedArrKey.length) {
             var columns = props.columns, selected = props.selected;
             var keyArr = columns.filter(function (i) { return i.checkbox === true || i.radio === true; });
             if (keyArr.length > 0) {
                 var key_1 = keyArr[0].name;
                 var selectedArrKey = selected.map(function (i) { return String(i[key_1]); });
                 return {
-                    selectedArrKey: selectedArrKey
+                    selectedArrKey: selectedArrKey,
+                    updated: true
                 };
             }
             else {

@@ -23,6 +23,7 @@ declare class ComponentName extends React.Component<ITablePropType, any> {
     constructor(props: any);
     static getDerivedStateFromProps(props: any, state: any): {
         selectedArrKey: any;
+        updated: boolean;
     };
     render(): JSX.Element;
     renderChildTD: (item: any, pIndex: number) => JSX.Element[];
