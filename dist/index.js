@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NumberPagination = exports.NextPrevPagination = exports.Summary = exports.Simple = void 0;
+exports.NumberPagination = exports.NextPrevPagination = exports.Summary = exports.SimpleTable = void 0;
 var DataTable_1 = require("./DataTable");
 var SimpleTable_1 = require("./SimpleTable");
-exports.Simple = SimpleTable_1.default;
+exports.SimpleTable = SimpleTable_1.default;
 var NextPrevPagination_1 = require("./NextPrevPagination");
 exports.NextPrevPagination = NextPrevPagination_1.default;
 var NumberPagination_1 = require("./NumberPagination");
